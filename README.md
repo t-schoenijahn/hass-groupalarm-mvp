@@ -1,4 +1,4 @@
-# Divera 24/7 Integration for Home Assistant
+# Groupalarm Integration for Home Assistant
 
 [![GitHub Release][releases-shield]][releases]
 ![Project Maintenance][maintenance-shield]
@@ -7,15 +7,15 @@
 [![License][license-shield]](LICENSE)
 [![BuyMeCoffee][buymecoffeebadge]][buymecoffee]
 
-_DISCLAIMER: This project is a private open source project and doesn't have any connection with Divera 24/7_
+_DISCLAIMER: This project is a private open source project and doesn't have any connection with GroupAlarm or cubos Internet
 
-This integration uses the Divera 24/7 [REST API](https://api.divera247.com/) to retrieve information and display it in Home Assitant.
+This integration uses the GroupAlarm.com [REST API](https://api.divera247.com/) to retrieve information and display it in Home Assitant. It is based on the [implementation for Divera](https://github.com/fwmarcel/home-assistant-divera) by fwmarcel.
 
 ## Installation
 
 1. Add this repository to your custom repositories.
 2. Install integration via HACS.
-3. In the HA UI go to "Configuration" &rarr; "Integrations" click "+" and search for "Divera 24/7".
+3. In the HA UI go to "Configuration" &rarr; "Integrations" click "+" and search for "GroupAlarm.com".
    _You can repeat this for as many accesskeys of different users as you like._
 4. Follow the setup instructions.
 
@@ -25,12 +25,6 @@ The configuration is done via UI.
 If you insert your accesskey in the setup dialog.
 
 ### How do you get your required access key?
-
-1. Open the settings [website](https://app.divera247.com/account/einstellungen.html) of divera.
-2. Change to the debug tab
-3. Copy your accesskey
-
-![image](https://user-images.githubusercontent.com/59510296/177019399-29de6824-c149-4949-8421-d0edc69a7126.png)
 
 
 ### Sensor values
@@ -70,17 +64,3 @@ You can add a basic automation blueprint here:
 If you find a problem, feel free to report it and I will do my best to help you.
 If you have something to contribute, your help is greatly appreciated!
 If you want to add a new feature, add a pull request first so we can discuss the details.
-
-
-***
-
-[buymecoffee]: https://www.buymeacoffee.com/fwmarcel
-[buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg?style=for-the-badge
-[commits-shield]: https://img.shields.io/github/commit-activity/y/fwmarcel/home-assistant-divera.svg?style=for-the-badge
-[commits]: https://github.com/fwmarcel/home-assistant-divera/commits/main
-[hacs]: https://github.com/hacs/integration
-[hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
-[license-shield]: https://img.shields.io/github/license/fwmarcel/home-assistant-divera.svg?style=for-the-badge
-[releases-shield]: https://img.shields.io/github/release/fwmarcel/home-assistant-divera.svg?style=for-the-badge
-[releases]: https://github.com/fwmarcel/home-assistant-divera/releases
-[maintenance-shield]: https://img.shields.io/badge/maintainer-fwmarcel-blue.svg?style=for-the-badge
