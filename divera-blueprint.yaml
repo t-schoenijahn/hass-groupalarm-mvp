@@ -1,18 +1,18 @@
 blueprint:
-  name: Divera alarm automation
-  description: Trigger some actions when a new Divera alarm is triggered.
+  name: GroupAlarm alarm automation
+  description: Trigger some actions when a new GroupAlarm alarm is triggered.
   domain: automation
-  author: fwmarcel
-  source_url: https://github.com/fwmarcel/home-assistant-divera/blob/main/divera-blueprint.yaml
+  author: t.schoenijahn
+  source_url: https://github.com/fwmarcel/home-assistant-groupalarm/blob/main/groupalarm-blueprint.yaml
   homeassistant: 
     min_version: 2022.4.0
   input:
-    divera_sensor:
-      name: Divera sensor
+    groupalarm_sensor:
+      name: GroupAlarm sensor
       description: The sensor which show the current alarm state
       selector:
         entity:
-          integration: divera
+          integration: groupalarm
           domain: sensor
           multiple: false
     self_addressed:
@@ -30,7 +30,7 @@ blueprint:
           multiline: false
     target_action:
       name: Action
-      description: What should be done, when a new divera alarm is trigged?
+      description: What should be done, when a new groupalarm alarm is trigged?
       selector:
         action: {}
 mode: parallel
@@ -40,7 +40,7 @@ variables:
   self_addressed: !input self_addressed
 trigger:
   - platform: state
-    entity_id: !input divera_sensor
+    entity_id: !input groupalarm_sensor
     not_to:
     - unknown
     - !input 'abort_keyword'
@@ -50,7 +50,7 @@ condition:
       - condition: template
         value_template: "{{ is_state(self_addressed, 'off') }}"
       - condition: state
-        entity_id: !input divera_sensor
+        entity_id: !input groupalarm_sensor
         attribute: self_addressed
         state: true
 action:

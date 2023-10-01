@@ -1,4 +1,4 @@
-"""Connector Class for Divera Data."""
+"""Connector Class for GroupAlarm Data."""
 
 from datetime import datetime
 import logging
@@ -6,13 +6,13 @@ import json
 import requests
 
 from homeassistant.const import STATE_UNKNOWN
-from .const import DEFAULT_TIMEOUT, DIVERA_STATUS_URL, DIVERA_URL
+from .const import DEFAULT_TIMEOUT, GROUPALARM_STATUS_URL, GROUPALARM_URL
 
 _LOGGER = logging.getLogger(__name__)
 
 
-class DiveraData:
-    """helper class for centrally querying the data from Divera."""
+class GroupAlarmData:
+    """helper class for centrally querying the data from GroupAlarm."""
 
     def __init__(self, hass, api_key):
         """Initiate necessary data for the helper class."""
@@ -27,11 +27,11 @@ class DiveraData:
             self.api_key = api_key
 
     async def async_update(self):
-        """Asynchronous update for all Divera entities."""
+        """Asynchronous update for all GroupAlarm entities."""
         return await self._hass.async_add_executor_job(self._update)
 
     def _update(self):
-        """Update for all Divera entities."""
+        """Update for all GroupAlarm entities."""
         timestamp = datetime.now()
 
         if not self.api_key:
@@ -40,7 +40,7 @@ class DiveraData:
             params = {"accesskey": self.api_key}
             try:
                 response = requests.get(
-                    DIVERA_URL, params=params, timeout=DEFAULT_TIMEOUT
+                    GROUPALARM_URL, params=params, timeout=DEFAULT_TIMEOUT
                 )
                 self.data = response.json()
                 self.success = response.status_code == 200
@@ -146,7 +146,7 @@ class DiveraData:
             params = {"accesskey": self.api_key}
             try:
                 response = requests.post(
-                    DIVERA_STATUS_URL,
+                    GROUPALARM_STATUS_URL,
                     params=params,
                     headers=headers,
                     timeout=DEFAULT_TIMEOUT,

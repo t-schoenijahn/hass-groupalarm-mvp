@@ -1,4 +1,4 @@
-"""Component for the selection of a divera state by the user."""
+"""Component for the selection of a groupalarm state by the user."""
 
 import logging
 
@@ -7,10 +7,10 @@ from homeassistant.components.select import SelectEntity
 
 from .const import (
     DEFAULT_SHORT_NAME,
-    DIVERA_NAME,
+    GROUPALARM_NAME,
     DOMAIN,
-    DIVERA_COORDINATOR,
-    DIVERA_DATA,
+    GROUPALARM_COORDINATOR,
+    GROUPALARM_DATA,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -19,24 +19,24 @@ _LOGGER = logging.getLogger(__name__)
 async def async_setup_entry(
     hass: HomeAssistantType, entry: ConfigType, async_add_entities
 ) -> None:
-    """Set up the Divera sensor platform."""
+    """Set up the GroupAlarm sensor platform."""
     hass_data = hass.data[DOMAIN][entry.entry_id]
     _LOGGER.debug("Sensor async_setup_entry")
     async_add_entities(
-        [DiveraStateSelect(hass_data)],
+        [GroupAlarmStateSelect(hass_data)],
         False,
     )
 
 
-class DiveraStateSelect(SelectEntity):
-    """implementation of a select unit for the divera status of the user."""
+class GroupAlarmStateSelect(SelectEntity):
+    """implementation of a select unit for the groupalarm status of the user."""
 
     def __init__(self, hass_data):
         """Initialize the sensor."""
-        self._connector = hass_data[DIVERA_DATA]
-        self._coordinator = hass_data[DIVERA_COORDINATOR]
+        self._connector = hass_data[GROUPALARM_DATA]
+        self._coordinator = hass_data[GROUPALARM_COORDINATOR]
         self._name = f"{DEFAULT_SHORT_NAME} User Status"
-        self._unique_id = f"{DOMAIN}_{hass_data[DIVERA_NAME]}_user_status"
+        self._unique_id = f"{DOMAIN}_{hass_data[GROUPALARM_NAME]}_user_status"
 
     def select_option(self, option: str) -> None:
         """Change the selected option."""

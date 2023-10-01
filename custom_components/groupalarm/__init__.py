@@ -1,22 +1,22 @@
-"""The Divera component."""
+"""The GroupAlarm.com component."""
 
 import asyncio
 import logging
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_API_KEY, CONF_NAME, Platform
+from homeassistant.const import CONF_ACCESS_TOKEN, CONF_NAME, Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
-from .connector import DiveraData
+from .connector import GroupAlarmData
 from .const import (
     DEFAULT_SCAN_INTERVAL,
-    DIVERA_STATE_SERVICE,
+    GROUPALARM_STATE_SERVICE,
     DOMAIN,
-    DIVERA_COORDINATOR,
-    DIVERA_DATA,
-    DIVERA_NAME,
+    GROUPALARM_COORDINATOR,
+    GROUPALARM_DATA,
+    GROUPALARM_NAME,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -25,39 +25,39 @@ PLATFORMS = [Platform.SELECT, Platform.SENSOR]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
-    """Set up Divera as config entry."""
+    """Set up GroupAlarm as config entry."""
 
     # Load values from settings
-    api_key = entry.data[CONF_API_KEY]
+    access_token = entry.data[CONF_ACCESS_TOKEN]
     site_name = entry.data[CONF_NAME]
 
-    divera_data = DiveraData(hass, api_key)
+    groupalarm_data = GroupAlarmData(hass, access_token)
 
     # Update data initially
-    await divera_data.async_update()
-    if not divera_data.success:
+    await groupalarm_data.async_update()
+    if not groupalarm_data.success:
         raise ConfigEntryNotReady()
 
     # Coordinator checks for new updates
-    divera_coordinator = DataUpdateCoordinator(
+    groupalarm_coordinator = DataUpdateCoordinator(
         hass,
         _LOGGER,
-        name=f"Divera Coordinator for {site_name}",
-        update_method=divera_data.async_update,
+        name=f"GroupAlarm Coordinator for {site_name}",
+        update_method=groupalarm_data.async_update,
         update_interval=DEFAULT_SCAN_INTERVAL,
     )
 
     # Save the data
-    divera_hass_data = hass.data.setdefault(DOMAIN, {})
-    divera_hass_data[entry.entry_id] = {
-        DIVERA_DATA: divera_data,
-        DIVERA_COORDINATOR: divera_coordinator,
-        DIVERA_NAME: site_name,
+    groupalarm_hass_data = hass.data.setdefault(DOMAIN, {})
+    groupalarm_hass_data[entry.entry_id] = {
+        GROUPALARM_DATA: groupalarm_data,
+        GROUPALARM_COORDINATOR: groupalarm_coordinator,
+        GROUPALARM_NAME: site_name,
     }
 
     # Fetch initial data so we have data when entities subscribe
-    await divera_coordinator.async_refresh()
-    if not divera_data.success:
+    await groupalarm_coordinator.async_refresh()
+    if not groupalarm_data.success:
         raise ConfigEntryNotReady()
 
     for component in PLATFORMS:
@@ -89,7 +89,7 @@ async def async_update(self):
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Unload a config entry."""
-    hass.services.async_remove(DOMAIN, DIVERA_STATE_SERVICE)
+    hass.services.async_remove(DOMAIN, GROUPALARM_STATE_SERVICE)
 
     unload_ok = all(
         await asyncio.gather(

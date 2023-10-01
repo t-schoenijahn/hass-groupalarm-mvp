@@ -1,4 +1,4 @@
-"""Sensor for Divera 24/7 service."""
+"""Sensor for GroupAlarm 24/7 service."""
 
 import logging
 
@@ -8,9 +8,9 @@ from homeassistant.helpers.typing import ConfigType, HomeAssistantType
 from .const import (
     DEFAULT_SHORT_NAME,
     DOMAIN,
-    DIVERA_COORDINATOR,
-    DIVERA_DATA,
-    DIVERA_NAME,
+    GROUPALARM_COORDINATOR,
+    GROUPALARM_DATA,
+    GROUPALARM_NAME,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -19,25 +19,25 @@ _LOGGER = logging.getLogger(__name__)
 async def async_setup_entry(
     hass: HomeAssistantType, entry: ConfigType, async_add_entities
 ) -> None:
-    """Set up the Divera sensor platform."""
+    """Set up the GroupAlarm sensor platform."""
     hass_data = hass.data[DOMAIN][entry.entry_id]
     _LOGGER.debug("Sensor async_setup_entry")
     async_add_entities(
-        [DiveraSensor(hass_data)],
+        [GroupAlarmSensor(hass_data)],
         False,
     )
 
 
-class DiveraSensor(Entity):
-    """Implementation of a Divera sensor."""
+class GroupAlarmSensor(Entity):
+    """Implementation of a GroupAlarm sensor."""
 
     def __init__(self, hass_data):
         """Initialize the sensor."""
-        self._connector = hass_data[DIVERA_DATA]
-        self._coordinator = hass_data[DIVERA_COORDINATOR]
+        self._connector = hass_data[GROUPALARM_DATA]
+        self._coordinator = hass_data[GROUPALARM_COORDINATOR]
 
         self._name = f"{DEFAULT_SHORT_NAME} Alarm"
-        self._unique_id = f"{DOMAIN}_{hass_data[DIVERA_NAME]}_alarm"
+        self._unique_id = f"{DOMAIN}_{hass_data[GROUPALARM_NAME]}_alarm"
         self._icon = "mdi:message-text"
 
     @property

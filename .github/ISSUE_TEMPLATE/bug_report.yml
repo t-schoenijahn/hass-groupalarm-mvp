@@ -7,7 +7,7 @@ body:
       attributes:
           label: Requirements
           options:
-              - label:  I have updated Divera Integration to the latest available version
+              - label:  I have updated GroupAlarm Integration to the latest available version
                 required: true
               - label: I did a search to see if there is a similar issue or if a pull request is open.
                 required: true
@@ -52,7 +52,7 @@ body:
           description: |
               examples:
                 - **HA Version**: 2023.03.0
-                - **Divera Version**: 0.0.7
+                - **GroupAlarm Version**: 0.0.7
           value: |
               - HA Version:
               - Mushroom:

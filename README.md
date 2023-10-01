@@ -9,7 +9,7 @@
 
 _DISCLAIMER: This project is a private open source project and doesn't have any connection with GroupAlarm or cubos Internet
 
-This integration uses the GroupAlarm.com [REST API](https://api.divera247.com/) to retrieve information and display it in Home Assitant. It is based on the [implementation for Divera](https://github.com/fwmarcel/home-assistant-divera) by fwmarcel.
+This integration uses the GroupAlarm.com [REST API](https://api.groupalarm247.com/) to retrieve information and display it in Home Assitant. It is based on the [implementation for GroupAlarm](https://github.com/fwmarcel/home-assistant-groupalarm) by fwmarcel.
 
 ## Installation
 
@@ -57,7 +57,7 @@ This is done every minute.
 ## Automation blueprint
 You can add a basic automation blueprint here:
 
-[![Open your Home Assistant instance and show the blueprint import dialog with a specific blueprint pre-filled.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2Ffwmarcel%2Fhome-assistant-divera%2Fblob%2Fmain%2Fdivera-blueprint.yaml)
+[![Open your Home Assistant instance and show the blueprint import dialog with a specific blueprint pre-filled.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2Ffwmarcel%2Fhome-assistant-groupalarm%2Fblob%2Fmain%2Fgroupalarm-blueprint.yaml)
 
 ## Help and Contribution
 

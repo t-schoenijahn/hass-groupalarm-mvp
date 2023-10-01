@@ -1,4 +1,4 @@
-"""Config flow for Divera 24/7 integration."""
+"""Config flow for GroupAlarm 24/7 integration."""
 
 import logging
 
@@ -6,7 +6,7 @@ import voluptuous as vol
 from homeassistant import config_entries, core, exceptions
 from homeassistant.const import CONF_API_KEY, CONF_NAME
 
-from .connector import DiveraData
+from .connector import GroupAlarmData
 from .const import (
     DOMAIN,
 )
@@ -21,15 +21,15 @@ async def validate_input(hass: core.HomeAssistant, data):
     """
     api_key = data[CONF_API_KEY]
 
-    divera_data = DiveraData(hass, api_key)
-    await divera_data.async_update()
-    if not divera_data.success:
+    groupalarm_data = GroupAlarmData(hass, api_key)
+    await groupalarm_data.async_update()
+    if not groupalarm_data.success:
         raise CannotConnect()
-    return {"unique_id": divera_data.get_user()["fullname"]}
+    return {"unique_id": groupalarm_data.get_user()["fullname"]}
 
 
-class DiveraConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for Divera integration."""
+class GroupAlarmConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+    """Handle a config flow for GroupAlarm integration."""
 
     VERSION = 2
     CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
