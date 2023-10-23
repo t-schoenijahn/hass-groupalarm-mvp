@@ -6,9 +6,9 @@
   ],
   "config_flow": true,
   "dependencies": [],
-  "documentation": "https://github.com/fwmarcel/home-assistant-groupalarm",
+  "documentation": "https://github.com/t-schoenijahn/home-assistant-groupalarm",
   "iot_class": "cloud_polling",
-  "issue_tracker": "https://github.com/fwmarcel/home-assistant-groupalarm/issues",
+  "issue_tracker": "https://github.com/t-schoenijahn/home-assistant-groupalarm/issues",
   "requirements": [],
   "version": "0.0.1"
 }
