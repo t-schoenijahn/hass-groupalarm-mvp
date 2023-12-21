@@ -37,7 +37,7 @@ class GroupAlarmData:
         if not self.api_key:
             _LOGGER.exception("No update possible")
         else:
-            params = {"accesskey": self.api_key}
+            params = {"Personal-Access-Token": self.api_key}
             try:
                 response = requests.get(
                     GROUPALARM_URL, params=params, timeout=DEFAULT_TIMEOUT
@@ -53,42 +53,7 @@ class GroupAlarmData:
 
     def get_user(self):
         """Return information about the user."""
-        data = {}
-        data["firstname"] = self.data["data"]["user"]["firstname"]
-        data["lastname"] = self.data["data"]["user"]["lastname"]
-        data["fullname"] = data["firstname"] + " " + data["lastname"]
-        data["email"] = self.data["data"]["user"]["email"]
-        return data
-
-    def get_state_id_by_name(self, name):
-        """Return the state_id of the given name."""
-        for state_id in self.data["data"]["cluster"]["statussorting"]:
-            state_name = self.data["data"]["cluster"]["status"][str(state_id)]["name"]
-            if state_name == name:
-                return id
-        return None
-
-    def get_all_state_name(self):
-        """Return the list of all available names of the states."""
-        states = []
-        for state_id in self.data["data"]["cluster"]["statussorting"]:
-            state_name = self.data["data"]["cluster"]["status"][str(state_id)]["name"]
-            states.append(state_name)
-        return states
-
-    def get_user_state(self):
-        """Give the name of the current status of the user."""
-        status_id = self.data["data"]["status"]["status_id"]
-        state_name = self.data["data"]["cluster"]["status"][str(status_id)]["name"]
-        return state_name
-
-    def get_user_state_attributes(self):
-        """Return aditional information of state."""
-        data = {}
-        timestamp = self.data["data"]["status"]["status_set_date"]
-        data["timestamp"] = datetime.fromtimestamp(timestamp)
-        data["id"] = self.data["data"]["status"]["status_id"]
-        return data
+        return {}
 
     def get_last_alarm_attributes(self):
         """Return aditional information of last alarm."""
@@ -130,10 +95,6 @@ class GroupAlarmData:
             return group["name"]
         except KeyError:
             return None
-
-    def get_id(self):
-        """Return id of user."""
-        return list(self.data["data"]["ucr"])[0]
 
     def set_state(self, state_id):
         """Set the state of the user to the given id."""
