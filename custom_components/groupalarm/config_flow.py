@@ -25,7 +25,7 @@ async def validate_input(hass: core.HomeAssistant, data):
     await groupalarm_data.async_update()
     if not groupalarm_data.success:
         raise CannotConnect()
-    return {"unique_id": groupalarm_data.get_user()["fullname"]}
+    return {"unique_id": groupalarm_data.get_user()["email"]}
 
 
 class GroupAlarmConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
