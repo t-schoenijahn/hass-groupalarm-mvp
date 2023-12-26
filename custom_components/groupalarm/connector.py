@@ -5,7 +5,7 @@ import logging
 import json
 import requests
 
-from homeassistant.const import STATE_UNKNOWN
+from homeassistant.const import STATE_UNKNOWN, STATE_OFF, STATE_ON
 from .const import DEFAULT_TIMEOUT, GROUPALARM_STATUS_URL, GROUPALARM_URL
 
 _LOGGER = logging.getLogger(__name__)
@@ -14,17 +14,19 @@ _LOGGER = logging.getLogger(__name__)
 class GroupAlarmData:
     """helper class for centrally querying the data from GroupAlarm."""
 
-    def __init__(self, hass, api_key):
+    def __init__(self, hass, api_key, only_own_alarms = True):
         """Initiate necessary data for the helper class."""
         self._hass = hass
 
         self.success = False
         self.latest_update = None
 
-        self.data = None
+        self.alarms = None
+        self.user = None
 
         if api_key != "":
             self.api_key = api_key
+        self.only_own_alarms = only_own_alarms != False
 
     async def async_update(self):
         """Asynchronous update for all GroupAlarm entities."""
@@ -37,13 +39,19 @@ class GroupAlarmData:
         if not self.api_key:
             _LOGGER.exception("No update possible")
         else:
-            params = {"Personal-Access-Token": self.api_key}
+            self.request_params = {"Personal-Access-Token": self.api_key}
             try:
-                response = requests.get(
-                    GROUPALARM_URL, params=params, timeout=DEFAULT_TIMEOUT
-                )
-                self.data = response.json()
-                self.success = response.status_code == 200
+                if self.only_own_alarms:
+                    url = GROUPALARM_URL + "/alarms/alarmed"
+                else:
+                    url = GROUPALARM_URL + "/alarms/user"
+                alarms = requests.get(url=url, params=self.request_params, timeout=DEFAULT_TIMEOUT)
+                self.alarms = alarms.json()
+
+                user = requests.get(url=GROUPALARM_URL + "/user", params=self.request_params, timeout=DEFAULT_TIMEOUT)
+                self.user = user.json()
+
+                self.success = alarms.status_code == 200 and alarms.status_code == 200 
             except requests.exceptions.HTTPError as ex:
                 _LOGGER.error("Error: %s", ex)
                 self.success = False
@@ -53,48 +61,65 @@ class GroupAlarmData:
 
     def get_user(self):
         """Return information about the user."""
-        return {}
+        return {
+            "id": self.user["id"],
+            "email": self.user["email"],
+            "name": self.user["name"],
+            "surname": self.user["surname"],
+        }
 
     def get_last_alarm_attributes(self):
         """Return aditional information of last alarm."""
-        sorting_list = self.data["data"]["alarm"]["sorting"]
-        if len(sorting_list) > 0:
-            last_alarm_id = sorting_list[0]
-            alarm = self.data["data"]["alarm"]["items"][str(last_alarm_id)]
-            groups = map(self.get_group_name_by_id, alarm["group"])
+        alarmList = self.alarms["alarms"]
+        if len(alarmList) > 0:
+            alarm = alarmList[0]
+            try:
+                feedback = self.get_user_feedback(alarm["feedback"])
+                alarmed = True
+            except UserNotAlarmedException:
+                feedback = None
+                alarmed = False
+            
             return {
                 "id": alarm["id"],
-                "text": alarm["text"],
-                "date": datetime.fromtimestamp(alarm["date"]),
-                "address": alarm["address"],
-                "latitude": str(alarm["lat"]),
-                "longitude": str(alarm["lng"]),
-                "groups": list(groups),
-                "priority": alarm["priority"],
-                "closed": alarm["closed"],
-                "new": alarm["new"],
-                "self_addressed": alarm["ucr_self_addressed"],
+                "event": alarm["event"]["name"],
+                "message": alarm["message"],
+                "date": datetime.fromtimestamp(alarm["startDate"]),
+                "organization": self.get_organization_name_by_id(alarm["organizationId"]),
+                "alarmed": alarmed,
+                "feedback": feedback
             }
         else:
             return {}
 
-    def get_last_alarm(self):
+    def get_alarm_state(self):
         """Return informations of last alarm."""
-        sorting_list = self.data["data"]["alarm"]["sorting"]
-        if len(sorting_list) > 0:
-            last_alarm_id = sorting_list[0]
-            alarm = self.data["data"]["alarm"]["items"][str(last_alarm_id)]
-            return alarm["title"]
+        alarmList = self.alarms["alarms"]
+        if len(alarmList) > 0:
+            alarm = alarmList[0]
+            if (datetime.fromtimestamp(alarm["startDate"]) < datetime.now()) and (datetime.fromtimestamp(alarm["endDate"]) > datetime.now()):
+                return STATE_ON
+            else:
+                return STATE_OFF
         else:
             return STATE_UNKNOWN
 
-    def get_group_name_by_id(self, group_id):
+    def get_organization_name_by_id(self, organization):
         """Return the name from the given group id."""
         try:
-            group = self.data["data"]["cluster"]["group"][str(group_id)]
-            return group["name"]
+            return requests.get(url=GROUPALARM_URL + "/organization/" + organization, params=self.request_params, timeout=DEFAULT_TIMEOUT).json()["name"]
         except KeyError:
             return None
+        
+    def get_user_feedback(self, alarmFeedback):
+        ownId = self.get_user["id"]
+        for feedback in alarmFeedback:
+            if feedback["userId"] == ownId:
+                if feedback["state"] == "WAITING":
+                    return None
+                else:
+                    return feedback["feedback"]
+        raise UserNotAlarmedException()
 
     def set_state(self, state_id):
         """Set the state of the user to the given id."""
@@ -117,3 +142,6 @@ class GroupAlarmData:
                     _LOGGER.error("Error while setting the state")
             except requests.exceptions.HTTPError as ex:
                 _LOGGER.error("Error: %s", ex)
+
+class UserNotAlarmedException(Exception):
+    pass

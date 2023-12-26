@@ -53,7 +53,7 @@ class GroupAlarmSensor(Entity):
     @property
     def state(self):
         """Return the state of the sensor."""
-        return self._connector.get_last_alarm()
+        return self._connector.get_alarm_state()
 
     @property
     def icon(self):
