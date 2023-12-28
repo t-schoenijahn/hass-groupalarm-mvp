@@ -31,7 +31,8 @@ async def validate_input(hass: core.HomeAssistant, data):
 class GroupAlarmConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for GroupAlarm integration."""
 
-    VERSION = 2
+    VERSION = 1
+    MINOR_VERSION = 1
     CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
 
     async def async_step_user(self, user_input=None):

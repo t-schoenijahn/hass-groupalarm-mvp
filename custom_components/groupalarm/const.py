@@ -3,7 +3,7 @@ from datetime import timedelta
 
 DOMAIN = "groupalarm"
 
-DEFAULT_NAME = "GroupAlarm"
+DEFAULT_NAME = "GroupAlarm.com"
 DEFAULT_SHORT_NAME = "GroupAlarm"
 
 ATTR_NAME = "state"
