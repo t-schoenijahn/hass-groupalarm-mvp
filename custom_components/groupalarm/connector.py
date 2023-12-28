@@ -71,7 +71,7 @@ class GroupAlarmData:
     
     def request_organizations(self):
         organizations = {}
-        response = requests.get(url=GROUPALARM_URL + "/organization/paginated", headers=self.request_headers, timeout=DEFAULT_TIMEOUT)
+        response = requests.get(url=GROUPALARM_URL + "/organizations/paginated", headers=self.request_headers, timeout=DEFAULT_TIMEOUT)
         _LOGGER.debug("Getting organizations returned: %s", response.content)
         for organization in response.json()["organizations"]:
             id = organization["id"]
