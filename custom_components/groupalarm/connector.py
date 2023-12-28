@@ -90,7 +90,7 @@ class GroupAlarmData:
                 "id": alarm["id"],
                 "event": alarm["event"]["name"],
                 "message": alarm["message"],
-                "date": datetime.fromtimestamp(alarm["startDate"]),
+                "date": datetime.fromisoformat(alarm["startDate"]),
                 "organization": self.get_organization_name_by_id(alarm["organizationId"]),
                 "alarmed": alarmed,
                 "feedback": feedback
@@ -103,7 +103,7 @@ class GroupAlarmData:
         alarmList = self.alarms["alarms"]
         if len(alarmList) > 0:
             alarm = alarmList[0]
-            if (datetime.fromtimestamp(alarm["startDate"]) < datetime.now()) and (datetime.fromtimestamp(alarm["endDate"]) > datetime.now()):
+            if (datetime.fromisoformat(alarm["startDate"]) < datetime.now()) and (datetime.fromisoformat(alarm["endDate"]) > datetime.now()):
                 return STATE_ON
             else:
                 return STATE_OFF
