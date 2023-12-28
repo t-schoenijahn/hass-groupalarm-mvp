@@ -4,7 +4,7 @@ import logging
 
 import voluptuous as vol
 from homeassistant import config_entries, core, exceptions
-from homeassistant.const import CONF_API_KEY, CONF_NAME
+from homeassistant.const import CONF_ACCESS_TOKEN, CONF_NAME
 
 from .connector import GroupAlarmData
 from .const import (
@@ -19,7 +19,7 @@ async def validate_input(hass: core.HomeAssistant, data):
 
     Data has the keys from DATA_SCHEMA with values provided by the user.
     """
-    api_key = data[CONF_API_KEY]
+    api_key = data[CONF_ACCESS_TOKEN]
 
     groupalarm_data = GroupAlarmData(hass, api_key)
     await groupalarm_data.async_update()
@@ -57,7 +57,7 @@ class GroupAlarmConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         data_schema = vol.Schema(
             {
-                vol.Required(CONF_API_KEY, default=""): str,
+                vol.Required(CONF_ACCESS_TOKEN, default=""): str,
             },
         )
 
