@@ -36,7 +36,7 @@ class GroupAlarmSensor(Entity):
         self._connector = hass_data[GROUPALARM_DATA]
         self._coordinator = hass_data[GROUPALARM_COORDINATOR]
 
-        self._name = f"{DEFAULT_SHORT_NAME} Alarm"
+        self._name = "Alarm"
         self._unique_id = f"{DOMAIN}_{hass_data[GROUPALARM_NAME]}_alarm"
         self._icon = "mdi:message-text"
 
