@@ -39,21 +39,21 @@ class GroupAlarmData:
         if not self.api_key:
             _LOGGER.exception("No update possible")
         else:
-            self.request_params = {"Personal-Access-Token": self.api_key}
+            self.request_headers = {"Personal-Access-Token": self.api_key}
             try:
                 if self.only_own_alarms:
                     url = GROUPALARM_URL + "/alarms/alarmed"
                 else:
                     url = GROUPALARM_URL + "/alarms/user"
                 _LOGGER.info("Using url: %s", url)
-                alarms = requests.get(url=url, params=self.request_params, timeout=DEFAULT_TIMEOUT)
+                alarms = requests.get(url=url, headers=self.request_headers, timeout=DEFAULT_TIMEOUT)
                 _LOGGER.info("Getting alarms returned: %s", alarms.content)
                 try:
                     self.alarms = alarms.json()
                 except:
                     raise ValueError("Cannot parse alarms: %s", alarms.content)
 
-                user = requests.get(url=GROUPALARM_URL + "/user", params=self.request_params, timeout=DEFAULT_TIMEOUT)
+                user = requests.get(url=GROUPALARM_URL + "/user", headers=self.request_headers, timeout=DEFAULT_TIMEOUT)
                 _LOGGER.info("Getting user returned: %s", user.content)
                 try:
                     self.user = user.json()
@@ -116,7 +116,7 @@ class GroupAlarmData:
     def get_organization_name_by_id(self, organization):
         """Return the name from the given group id."""
         try:
-            response = requests.get(url=GROUPALARM_URL + "/organization/" + organization, params=self.request_params, timeout=DEFAULT_TIMEOUT)
+            response = requests.get(url=GROUPALARM_URL + "/organization/" + organization, headers=self.request_headers, timeout=DEFAULT_TIMEOUT)
             _LOGGER.debug("Getting organization id %s returned: %s", organization, response.content)
             return response.json()
         except KeyError:
@@ -140,10 +140,10 @@ class GroupAlarmData:
         if not self.api_key:
             _LOGGER.exception("state can not be set. api-key is missing")
         else:
-            params = {"accesskey": self.api_key}
+            headers = {"accesskey": self.api_key}
             try:
                 response = requests.post(
-                    params=params,
+                    headers=headers,
                     headers=headers,
                     timeout=DEFAULT_TIMEOUT,
                     data=payload,
