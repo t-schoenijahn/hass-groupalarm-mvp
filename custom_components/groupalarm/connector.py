@@ -48,11 +48,17 @@ class GroupAlarmData:
                 _LOGGER.info("Using url: %s", url)
                 alarms = requests.get(url=url, params=self.request_params, timeout=DEFAULT_TIMEOUT)
                 _LOGGER.info("Getting alarms returned: %s", alarms.content)
-                self.alarms = alarms.json()
+                try:
+                    self.alarms = alarms.json()
+                except:
+                    raise ValueError("Cannot parse alarms: %s", alarms.content)
 
                 user = requests.get(url=GROUPALARM_URL + "/user", params=self.request_params, timeout=DEFAULT_TIMEOUT)
                 _LOGGER.info("Getting user returned: %s", user.content)
-                self.user = user.json()
+                try:
+                    self.user = user.json()
+                except:
+                    raise ValueError("Cannot parse user: %s", user.content)
 
                 self.success = alarms.status_code == 200 and alarms.status_code == 200 
             except requests.exceptions.HTTPError as ex:
