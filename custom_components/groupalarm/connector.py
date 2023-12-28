@@ -113,7 +113,7 @@ class GroupAlarmData:
     def get_organization_name_by_id(self, organization):
         """Return the name from the given group id."""
         try:
-            response = requests.get(url=GROUPALARM_URL + "/organization/" + organization, headers=self.request_headers, timeout=DEFAULT_TIMEOUT)
+            response = requests.get(url=GROUPALARM_URL + "/organization/" + str(organization), headers=self.request_headers, timeout=DEFAULT_TIMEOUT)
             _LOGGER.debug("Getting organization id %s returned: %s", organization, response.content)
             return response.json()
         except KeyError:
