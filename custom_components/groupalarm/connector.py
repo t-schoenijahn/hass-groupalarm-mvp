@@ -140,10 +140,9 @@ class GroupAlarmData:
         if not self.api_key:
             _LOGGER.exception("state can not be set. api-key is missing")
         else:
-            headers = {"accesskey": self.api_key}
+            headers = {"Content-Type": "application/json", "accesskey": self.api_key}
             try:
                 response = requests.post(
-                    headers=headers,
                     headers=headers,
                     timeout=DEFAULT_TIMEOUT,
                     data=payload,
