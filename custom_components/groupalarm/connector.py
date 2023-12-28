@@ -6,7 +6,7 @@ import json
 import requests
 
 from homeassistant.const import STATE_UNKNOWN, STATE_OFF, STATE_ON
-from .const import DEFAULT_TIMEOUT, GROUPALARM_STATUS_URL, GROUPALARM_URL
+from .const import DEFAULT_TIMEOUT, GROUPALARM_URL
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -132,7 +132,6 @@ class GroupAlarmData:
             params = {"accesskey": self.api_key}
             try:
                 response = requests.post(
-                    GROUPALARM_STATUS_URL,
                     params=params,
                     headers=headers,
                     timeout=DEFAULT_TIMEOUT,
