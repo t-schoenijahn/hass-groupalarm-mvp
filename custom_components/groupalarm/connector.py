@@ -45,10 +45,13 @@ class GroupAlarmData:
                     url = GROUPALARM_URL + "/alarms/alarmed"
                 else:
                     url = GROUPALARM_URL + "/alarms/user"
+                _LOGGER.debug("Using url: %s", url)
                 alarms = requests.get(url=url, params=self.request_params, timeout=DEFAULT_TIMEOUT)
+                _LOGGER.debug("Getting alarms returned: %s", alarms.content)
                 self.alarms = alarms.json()
 
                 user = requests.get(url=GROUPALARM_URL + "/user", params=self.request_params, timeout=DEFAULT_TIMEOUT)
+                _LOGGER.debug("Getting user returned: %s", user.content)
                 self.user = user.json()
 
                 self.success = alarms.status_code == 200 and alarms.status_code == 200 
@@ -107,7 +110,9 @@ class GroupAlarmData:
     def get_organization_name_by_id(self, organization):
         """Return the name from the given group id."""
         try:
-            return requests.get(url=GROUPALARM_URL + "/organization/" + organization, params=self.request_params, timeout=DEFAULT_TIMEOUT).json()["name"]
+            response = requests.get(url=GROUPALARM_URL + "/organization/" + organization, params=self.request_params, timeout=DEFAULT_TIMEOUT)
+            _LOGGER.debug("Getting organization id %s returned: %s", organization, response.content)
+            return response.json()
         except KeyError:
             return None
         
