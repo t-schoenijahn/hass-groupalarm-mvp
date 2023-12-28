@@ -23,6 +23,7 @@ class GroupAlarmData:
 
         self.alarms = None
         self.user = None
+        self.organizations = None
 
         if api_key != "":
             self.api_key = api_key
@@ -41,29 +42,43 @@ class GroupAlarmData:
         else:
             self.request_headers = {"Personal-Access-Token": self.api_key}
             try:
-                if self.only_own_alarms:
-                    url = GROUPALARM_URL + "/alarms/alarmed"
-                else:
-                    url = GROUPALARM_URL + "/alarms/user"
-                _LOGGER.debug("Using alarm url: %s", url)
-                alarms = requests.get(url=url, headers=self.request_headers, timeout=DEFAULT_TIMEOUT)
-                _LOGGER.debug("Getting alarms returned: %s", alarms.content)
-                self.alarms = alarms.json()
+                status_alarms, self.alarms = self.request_alarms()
+                status_user, self.user = self.request_user()
+                status_organization, self.organizations = self.request_organizations()
 
-                user = requests.get(url=GROUPALARM_URL + "/user", headers=self.request_headers, timeout=DEFAULT_TIMEOUT)
-                _LOGGER.debug("Getting user returned: %s", user.content)
-                try:
-                    self.user = user.json()
-                except:
-                    raise ValueError("Cannot parse user: %s", user.content)
-
-                self.success = alarms.status_code == 200 and alarms.status_code == 200 
+                self.success = status_alarms == 200 and status_user == 200 and status_organization == 200
             except requests.exceptions.HTTPError as ex:
                 _LOGGER.error("Error: %s", ex)
                 self.success = False
             else:
                 self.latest_update = timestamp
             _LOGGER.debug("Values updated at %s", self.latest_update)
+
+    def request_alarms(self):
+        if self.only_own_alarms:
+            url = GROUPALARM_URL + "/alarms/alarmed"
+        else:
+            url = GROUPALARM_URL + "/alarms/user"
+        _LOGGER.debug("Using alarm url: %s", url)
+        alarms = requests.get(url=url, headers=self.request_headers, timeout=DEFAULT_TIMEOUT)
+        _LOGGER.debug("Getting alarms returned: %s", alarms.content)
+        return alarms.status_code, alarms.json()
+
+    def request_user(self):
+        response = requests.get(url=GROUPALARM_URL + "/user", headers=self.request_headers, timeout=DEFAULT_TIMEOUT)
+        _LOGGER.debug("Getting user returned: %s", response.content)
+        return response.status_code, response.json()
+    
+    def request_organizations(self):
+        organizations = {}
+        response = requests.get(url=GROUPALARM_URL + "/organization/paginated", headers=self.request_headers, timeout=DEFAULT_TIMEOUT)
+        _LOGGER.debug("Getting organizations returned: %s", response.content)
+        for organization in response.json()["organizations"]:
+            id = organization["id"]
+            name = organization["name"]
+            organizations[id] = name
+        
+        return response.status_code, organizations
 
     def get_user(self):
         """Return information about the user."""
@@ -113,9 +128,7 @@ class GroupAlarmData:
     def get_organization_name_by_id(self, organization):
         """Return the name from the given group id."""
         try:
-            response = requests.get(url=GROUPALARM_URL + "/organization/" + str(organization), headers=self.request_headers, timeout=DEFAULT_TIMEOUT)
-            _LOGGER.debug("Getting organization id %s returned: %s", organization, response.content)
-            return response.json()
+            return str(self.organizations[organization])
         except KeyError:
             return None
         
