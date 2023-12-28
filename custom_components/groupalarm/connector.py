@@ -45,16 +45,13 @@ class GroupAlarmData:
                     url = GROUPALARM_URL + "/alarms/alarmed"
                 else:
                     url = GROUPALARM_URL + "/alarms/user"
-                _LOGGER.info("Using url: %s", url)
+                _LOGGER.debug("Using alarm url: %s", url)
                 alarms = requests.get(url=url, headers=self.request_headers, timeout=DEFAULT_TIMEOUT)
-                _LOGGER.info("Getting alarms returned: %s", alarms.content)
-                try:
-                    self.alarms = alarms.json()
-                except:
-                    raise ValueError("Cannot parse alarms: %s", alarms.content)
+                _LOGGER.debug("Getting alarms returned: %s", alarms.content)
+                self.alarms = alarms.json()
 
                 user = requests.get(url=GROUPALARM_URL + "/user", headers=self.request_headers, timeout=DEFAULT_TIMEOUT)
-                _LOGGER.info("Getting user returned: %s", user.content)
+                _LOGGER.debug("Getting user returned: %s", user.content)
                 try:
                     self.user = user.json()
                 except:
