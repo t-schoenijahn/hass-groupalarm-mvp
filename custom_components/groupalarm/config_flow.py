@@ -25,7 +25,7 @@ async def validate_input(hass: core.HomeAssistant, data):
     await groupalarm_data.async_update()
     if not groupalarm_data.success:
         raise CannotConnect()
-    return {"unique_id": groupalarm_data.get_user()["email"]}
+    return {"unique_id": groupalarm_data.get_user()["email"], CONF_ACCESS_TOKEN: api_key}
 
 
 class GroupAlarmConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -49,6 +49,7 @@ class GroupAlarmConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             else:
                 unique_id = info["unique_id"]
                 user_input[CONF_NAME] = unique_id
+                user_input[CONF_ACCESS_TOKEN] = info[CONF_ACCESS_TOKEN]
                 await self.async_set_unique_id(unique_id)
                 self._abort_if_unique_id_configured()
                 return self.async_create_entry(
