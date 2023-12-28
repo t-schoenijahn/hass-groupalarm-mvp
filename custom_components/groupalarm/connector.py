@@ -45,13 +45,13 @@ class GroupAlarmData:
                     url = GROUPALARM_URL + "/alarms/alarmed"
                 else:
                     url = GROUPALARM_URL + "/alarms/user"
-                _LOGGER.debug("Using url: %s", url)
+                _LOGGER.info("Using url: %s", url)
                 alarms = requests.get(url=url, params=self.request_params, timeout=DEFAULT_TIMEOUT)
-                _LOGGER.debug("Getting alarms returned: %s", alarms.content)
+                _LOGGER.info("Getting alarms returned: %s", alarms.content)
                 self.alarms = alarms.json()
 
                 user = requests.get(url=GROUPALARM_URL + "/user", params=self.request_params, timeout=DEFAULT_TIMEOUT)
-                _LOGGER.debug("Getting user returned: %s", user.content)
+                _LOGGER.info("Getting user returned: %s", user.content)
                 self.user = user.json()
 
                 self.success = alarms.status_code == 200 and alarms.status_code == 200 
