@@ -91,7 +91,7 @@ class GroupAlarmData:
                 "event": alarm["event"]["name"],
                 "message": alarm["message"],
                 "date": datetime.fromisoformat(alarm["startDate"]),
-                "organization": self.get_organization_name_by_id(alarm["organizationId"]),
+                "organization": self.get_organization_name_by_id(alarm["organizationID"]),
                 "alarmed": alarmed,
                 "feedback": feedback
             }
