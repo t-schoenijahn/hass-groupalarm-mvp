@@ -122,7 +122,7 @@ class GroupAlarmData:
     def get_user_feedback(self, alarmFeedback):
         ownId = self.get_user()["id"]
         for feedback in alarmFeedback:
-            if feedback["userId"] == ownId:
+            if feedback["userID"] == ownId:
                 if feedback["state"] == "WAITING":
                     return None
                 else:
