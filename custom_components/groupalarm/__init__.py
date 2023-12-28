@@ -12,7 +12,6 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from .connector import GroupAlarmData
 from .const import (
     DEFAULT_SCAN_INTERVAL,
-    GROUPALARM_STATE_SERVICE,
     DOMAIN,
     GROUPALARM_COORDINATOR,
     GROUPALARM_DATA,
@@ -89,7 +88,7 @@ async def async_update(self):
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Unload a config entry."""
-    hass.services.async_remove(DOMAIN, GROUPALARM_STATE_SERVICE)
+    hass.services.async_remove(DOMAIN)
 
     unload_ok = all(
         await asyncio.gather(
