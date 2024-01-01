@@ -119,6 +119,7 @@ class GroupAlarmData:
         if len(alarmList) > 0:
             alarm = alarmList[0]
             if (datetime.fromisoformat(alarm["startDate"]) < datetime.now().astimezone()) and ( 
+                (not "endDate" in alarm) or 
                 (alarm["endDate"] == None) or 
                 (alarm["endDate"] == "") or
                 (datetime.fromisoformat(alarm["endDate"]) > datetime.now().astimezone())
