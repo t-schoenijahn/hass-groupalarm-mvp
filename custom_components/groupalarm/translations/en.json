@@ -5,7 +5,7 @@
       "user": {
         "description": "The accesskey will be used to pull the data from the servers. You can found your accesskey in your settings under debug item.",
         "data": {
-          "api_key": "Accesskey"
+          "access_token": "Accesskey"
         }
       }
     },

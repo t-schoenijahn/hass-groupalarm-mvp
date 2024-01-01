@@ -5,7 +5,7 @@
       "user": {
         "description": "Der Zugangsschlüssel wird verwendet, um die Daten von den Servern abzurufen. Sie finden Ihren Zugangsschlüssel in Ihren Einstellungen unter dem Punkt Debug.",
         "data": {
-          "api_key": "Accesskey"
+          "access_token": "Accesskey"
         }
       }
     },
