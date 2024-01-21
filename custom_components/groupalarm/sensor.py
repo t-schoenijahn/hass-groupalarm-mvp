@@ -54,11 +54,11 @@ class GroupAlarmAbstractSensor(SensorEntity):
     @property
     def device_info(self) -> DeviceInfo:
         """Return the device info."""
-        return {
-            "identifiers": {(DOMAIN, self.unique_id)},
-            "name": self._name,
-            "manufacturer": DEFAULT_SHORT_NAME,
-        }
+        return DeviceInfo(
+            identifiers={(DOMAIN, self.unique_id)},
+            name=self._name,
+            manufacturer=DEFAULT_SHORT_NAME,
+        )
 
     async def async_added_to_hass(self) -> None:
         """Set up a listener and load data."""
