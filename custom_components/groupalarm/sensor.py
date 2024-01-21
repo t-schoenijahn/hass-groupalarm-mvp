@@ -55,7 +55,7 @@ class GroupAlarmAbstractSensor(SensorEntity):
     def device_info(self) -> DeviceInfo:
         """Return the device info."""
         return DeviceInfo(
-            identifiers={(DOMAIN, self.unique_id)},
+            identifiers={(DOMAIN, "TODO")},
             name=GROUPALARM_NAME,
             manufacturer=DEFAULT_SHORT_NAME,
         )
