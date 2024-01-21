@@ -87,7 +87,7 @@ class GroupAlarmOrganizationSensor(GroupAlarmAbstractSensor):
     _attr_icon = "mdi:account-group"
 
     def __init__(self, hass_data):
-        super(hass_data)
+        super().__init__(hass_data)
         self._attr_unique_id = f"{self._attr_unique_id}_organization"
 
     @property
@@ -100,7 +100,7 @@ class GroupAlarmAlarmStartSensor(GroupAlarmAbstractSensor):
     _attr_icon = "mdi:calendar-start"
     
     def __init__(self, hass_data):
-        super(hass_data)
+        super().__init__(hass_data)
         self._attr_unique_id = f"{self._attr_unique_id}_start"
 
     @property
@@ -113,7 +113,7 @@ class GroupAlarmAlarmEndSensor(GroupAlarmAbstractSensor):
     _attr_icon = "mdi:calendar-end"
     
     def __init__(self, hass_data):
-        super(hass_data)
+        super().__init__(hass_data)
         self._attr_unique_id = f"{self._attr_unique_id}_end"
 
     @property
@@ -125,7 +125,7 @@ class GroupAlarmUserAlarmedSensor(GroupAlarmAbstractSensor):
     _attr_name = "User is alarmed"
     _attr_icon = "mdi:account-alert"
     def __init__(self, hass_data):
-        super(hass_data)
+        super().__init__(hass_data)
         self._attr_unique_id = f"{self._attr_unique_id}_user_alarmed"
 
     @property
@@ -137,7 +137,7 @@ class GroupAlarmUserFeedbackSensor(GroupAlarmAbstractSensor):
     _attr_name = "Feedback"
     _attr_icon = "mdi:account-alert"
     def __init__(self, hass_data):
-        super(hass_data)
+        super().__init__(hass_data)
         self._attr_unique_id = f"{self._attr_unique_id}_user_feedback"
 
     @property
@@ -149,7 +149,7 @@ class GroupAlarmMessageSensor(GroupAlarmAbstractSensor):
     _attr_name = "Message"
     _attr_icon = "mdi:card-text"
     def __init__(self, hass_data):
-        super(hass_data)
+        super().__init__(hass_data)
         self._attr_unique_id = f"{self._attr_unique_id}_message"
 
     @property
@@ -161,7 +161,7 @@ class GroupAlarmEventSensor(GroupAlarmAbstractSensor):
     _attr_name = "Event"
     _attr_icon = "mdi:calendar-text"
     def __init__(self, hass_data):
-        super(hass_data)
+        super().__init__(hass_data)
         self._attr_unique_id = f"{self._attr_unique_id}_event"
 
     @property
