@@ -2,7 +2,7 @@
 
 import logging
 
-from homeassistant.components.sensor.entity import SensorEntity
+from homeassistant.components.sensor import SensorEntity
 from homeassistant.helpers.typing import ConfigType, HomeAssistantType
 
 from .const import (
