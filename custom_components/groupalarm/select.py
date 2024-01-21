@@ -60,10 +60,10 @@ class GroupAlarmStateSelect(SelectEntity):
         """Return the name of the entity."""
         return self._name
 
-    @property
-    def options(self):
-        """Return the state of the sensor."""
-        return self._connector.get_all_states()
+    # @property
+    # def options(self):
+    #     """Return the state of the sensor."""
+    #     return self._connector.get_all_states()
 
     @property
     def current_option(self):
