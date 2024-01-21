@@ -53,7 +53,7 @@ class GroupAlarmConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 await self.async_set_unique_id(unique_id)
                 self._abort_if_unique_id_configured()
                 return self.async_create_entry(
-                    title=user_input[CONF_NAME].title(), data=user_input
+                    title=user_input[CONF_NAME], data=user_input
                 )
 
         data_schema = vol.Schema(
