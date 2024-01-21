@@ -8,6 +8,7 @@ from homeassistant.helpers.device_registry import DeviceInfo
 
 from .const import (
     DEFAULT_SHORT_NAME,
+    DEFAULT_NAME,
     DOMAIN,
     GROUPALARM_COORDINATOR,
     GROUPALARM_DATA,
@@ -56,7 +57,7 @@ class GroupAlarmAbstractSensor(SensorEntity):
         """Return the device info."""
         return DeviceInfo(
             identifiers={(DOMAIN, "TODO")},
-            name=GROUPALARM_NAME,
+            name=DEFAULT_NAME,
             manufacturer=DEFAULT_SHORT_NAME,
         )
 
