@@ -136,7 +136,7 @@ class GroupAlarmUserAlarmedSensor(GroupAlarmAbstractSensor):
 
 class GroupAlarmUserFeedbackSensor(GroupAlarmAbstractSensor):
     _attr_name = "Feedback"
-    _attr_icon = "mdi:account-alert"
+    _attr_icon = "mdi:account-badge"
     def __init__(self, hass_data):
         super().__init__(hass_data)
         self._attr_unique_id = f"{self._attr_unique_id}_user_feedback"
