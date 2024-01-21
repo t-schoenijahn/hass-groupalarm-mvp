@@ -143,7 +143,7 @@ class GroupAlarmUserFeedbackSensor(GroupAlarmAbstractSensor):
     @property
     def state(self):
         """Return the state of the sensor."""
-        return self._connector.get_user_feedback()
+        return self._connector.get_alarm_feedback()
 
 class GroupAlarmMessageSensor(GroupAlarmAbstractSensor):
     _attr_name = "Message"
