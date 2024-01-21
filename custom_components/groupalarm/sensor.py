@@ -2,7 +2,7 @@
 
 import logging
 
-from homeassistant.components.sensor import SensorEntity
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.helpers.typing import ConfigType, HomeAssistantType
 
 from .const import (
@@ -97,6 +97,7 @@ class GroupAlarmOrganizationSensor(GroupAlarmAbstractSensor):
 
 class GroupAlarmAlarmStartSensor(GroupAlarmAbstractSensor):
     _attr_name = "Start"
+    _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_icon = "mdi:calendar-start"
     
     def __init__(self, hass_data):
@@ -110,6 +111,7 @@ class GroupAlarmAlarmStartSensor(GroupAlarmAbstractSensor):
 
 class GroupAlarmAlarmEndSensor(GroupAlarmAbstractSensor):
     _attr_name = "End"
+    _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_icon = "mdi:calendar-end"
     
     def __init__(self, hass_data):
