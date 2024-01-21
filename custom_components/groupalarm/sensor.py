@@ -50,17 +50,17 @@ class GroupAlarmAbstractSensor(SensorEntity):
         """Return the state of the sensor."""
         return self._connector.get_alarm_state()
 
-    @property
-    def device_info(self) -> DeviceInfo:
-        """Return the device info."""
-        return DeviceInfo(
-            identifiers={
-                # Serial numbers are unique identifiers within a specific domain
-                (DOMAIN, self.unique_id)
-            },
-            name=self._name,
-            manufacturer=DEFAULT_SHORT_NAME,
-        )
+    # @property
+    # def device_info(self) -> DeviceInfo:
+    #     """Return the device info."""
+    #     return DeviceInfo(
+    #         identifiers={
+    #             # Serial numbers are unique identifiers within a specific domain
+    #             (DOMAIN, self.unique_id)
+    #         },
+    #         name=self._name,
+    #         manufacturer=DEFAULT_SHORT_NAME,
+    #     )
 
     async def async_added_to_hass(self) -> None:
         """Set up a listener and load data."""
