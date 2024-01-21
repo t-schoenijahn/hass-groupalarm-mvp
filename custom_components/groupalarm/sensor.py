@@ -4,6 +4,7 @@ import logging
 
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.helpers.typing import ConfigType, HomeAssistantType
+from homeassistant.helpers.device_registry import DeviceInfo
 
 from .const import (
     DEFAULT_SHORT_NAME,
