@@ -95,49 +95,49 @@ class GroupAlarmData:
         return alarmList[0]
 
     def get_alarm_id(self):
-       alarm = self.__get_last_alarm(self)
+       alarm = self.__get_last_alarm()
        if alarm:
         return alarm["id"]
        else:
          return None
        
     def get_alarm_organization(self):
-       alarm = self.__get_last_alarm(self)
+       alarm = self.__get_last_alarm()
        if alarm:
         return self.get_organization_name_by_id(alarm["organizationID"])
        else:
         return None
 
     def get_alarm_message(self):
-       alarm = self.__get_last_alarm(self)
+       alarm = self.__get_last_alarm()
        if alarm:
         return alarm["message"]
        else:
         return None
 
     def get_alarm_event(self):
-       alarm = self.__get_last_alarm(self)
+       alarm = self.__get_last_alarm()
        if alarm:
           return alarm["event"]["name"]
        else:
           return None
     
     def get_alarm_start(self):
-       alarm = self.__get_last_alarm(self)
+       alarm = self.__get_last_alarm()
        if alarm:
           return datetime.fromisoformat(alarm["startDate"])
        else:
           return None
 
     def get_alarm_end(self):
-       alarm = self.__get_last_alarm(self)
+       alarm = self.__get_last_alarm()
        if alarm and "endDate" in alarm:
           return datetime.fromisoformat(alarm["endDate"])
        else:
           return None
 
     def get_alarm_feedback(self):
-      alarm = self.__get_last_alarm(self)
+      alarm = self.__get_last_alarm()
       try:
         return self.get_user_feedback(alarm["feedback"])
       except UserNotAlarmedException:
@@ -145,7 +145,7 @@ class GroupAlarmData:
        
 
     def get_alarm_useralarmed(self):
-      alarm = self.__get_last_alarm(self)
+      alarm = self.__get_last_alarm()
       try:
         self.get_user_feedback(alarm["feedback"])
         return True
