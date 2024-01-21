@@ -89,29 +89,68 @@ class GroupAlarmData:
             "surname": self.user["surname"],
         }
 
-    def get_last_alarm_attributes(self):
-        """Return aditional information of last alarm."""
-        alarmList = self.alarms["alarms"]
-        if len(alarmList) > 0:
-            alarm = alarmList[0]
-            try:
-                feedback = self.get_user_feedback(alarm["feedback"])
-                alarmed = True
-            except UserNotAlarmedException:
-                feedback = None
-                alarmed = False
-            
-            return {
-                "id": alarm["id"],
-                "event": alarm["event"]["name"],
-                "message": alarm["message"],
-                "date": datetime.fromisoformat(alarm["startDate"]),
-                "organization": self.get_organization_name_by_id(alarm["organizationID"]),
-                "alarmed": alarmed,
-                "feedback": feedback
-            }
-        else:
-            return {}
+    def __get_last_alarm(self):
+      alarmList = self.alarms["alarms"]
+      if len(alarmList) > 0:
+        return alarmList[0]
+
+    def get_alarm_id(self):
+       alarm = self.__get_last_alarm(self)
+       if alarm:
+        return alarm["id"]
+       else:
+         return None
+       
+    def get_alarm_organization(self):
+       alarm = self.__get_last_alarm(self)
+       if alarm:
+        return self.get_organization_name_by_id(alarm["organizationID"])
+       else:
+        return None
+
+    def get_alarm_message(self):
+       alarm = self.__get_last_alarm(self)
+       if alarm:
+        return alarm["message"]
+       else:
+        return None
+
+    def get_alarm_event(self):
+       alarm = self.__get_last_alarm(self)
+       if alarm:
+          return alarm["event"]["name"]
+       else:
+          return None
+    
+    def get_alarm_start(self):
+       alarm = self.__get_last_alarm(self)
+       if alarm:
+          return datetime.fromisoformat(alarm["startDate"])
+       else:
+          return None
+
+    def get_alarm_end(self):
+       alarm = self.__get_last_alarm(self)
+       if alarm and "endDate" in alarm:
+          return datetime.fromisoformat(alarm["endDate"])
+       else:
+          return None
+
+    def get_alarm_feedback(self):
+      alarm = self.__get_last_alarm(self)
+      try:
+        return self.get_user_feedback(alarm["feedback"])
+      except UserNotAlarmedException:
+        return None
+       
+
+    def get_alarm_useralarmed(self):
+      alarm = self.__get_last_alarm(self)
+      try:
+        self.get_user_feedback(alarm["feedback"])
+        return True
+      except UserNotAlarmedException:
+        return False
 
     def get_alarm_state(self):
         """Return informations of last alarm."""

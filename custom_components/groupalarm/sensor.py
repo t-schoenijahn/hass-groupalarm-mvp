@@ -2,7 +2,7 @@
 
 import logging
 
-from homeassistant.helpers.entity import Entity
+from homeassistant.helpers.entity import SensorEntity
 from homeassistant.helpers.typing import ConfigType, HomeAssistantType
 
 from .const import (
@@ -23,12 +23,19 @@ async def async_setup_entry(
     hass_data = hass.data[DOMAIN][entry.entry_id]
     _LOGGER.debug("Sensor async_setup_entry")
     async_add_entities(
-        [GroupAlarmSensor(hass_data)],
+        [
+            GroupAlarmAlarmStartSensor(hass_data),
+            GroupAlarmAlarmEndSensor(hass_data),
+            GroupAlarmOrganizationSensor(hass_data),
+            GroupAlarmEventSensor(hass_data),
+            GroupAlarmMessageSensor(hass_data),
+            GroupAlarmUserAlarmedSensor(hass_data),
+            GroupAlarmUserFeedbackSensor(hass_data)      
+         ],
         False,
     )
 
-
-class GroupAlarmSensor(Entity):
+class GroupAlarmAbstractSensor(SensorEntity):
     """Implementation of a GroupAlarm sensor."""
 
     def __init__(self, hass_data):
@@ -36,19 +43,7 @@ class GroupAlarmSensor(Entity):
         self._connector = hass_data[GROUPALARM_DATA]
         self._coordinator = hass_data[GROUPALARM_COORDINATOR]
 
-        self._name = "Alarm"
-        self._unique_id = f"{DOMAIN}_{hass_data[GROUPALARM_NAME]}_alarm"
-        self._icon = "mdi:message-text"
-
-    @property
-    def name(self):
-        """Return the name of the sensor."""
-        return self._name
-
-    @property
-    def unique_id(self):
-        """Return the unique of the sensor."""
-        return self._unique_id
+        self._unique_id = f"{DOMAIN}_{hass_data[GROUPALARM_NAME]}"
 
     @property
     def state(self):
@@ -56,14 +51,16 @@ class GroupAlarmSensor(Entity):
         return self._connector.get_alarm_state()
 
     @property
-    def icon(self):
-        """Return the icon for the entity card."""
-        return self._icon
-
-    @property
-    def extra_state_attributes(self):
-        """Return the state attributes of the device."""
-        return self._connector.get_last_alarm_attributes()
+    def device_info(self) -> DeviceInfo:
+        """Return the device info."""
+        return DeviceInfo(
+            identifiers={
+                # Serial numbers are unique identifiers within a specific domain
+                (DOMAIN, self.unique_id)
+            },
+            name=self._name,
+            manufacturer=DEFAULT_SHORT_NAME,
+        )
 
     async def async_added_to_hass(self) -> None:
         """Set up a listener and load data."""
@@ -84,3 +81,90 @@ class GroupAlarmSensor(Entity):
     def available(self):
         """Return if state is available."""
         return self._connector.success and self._connector.latest_update is not None
+
+class GroupAlarmOrganizationSensor(GroupAlarmAbstractSensor):
+    _attr_name = "Organization"
+    _attr_icon = "mdi:account-group"
+
+    def __init__(self, hass_data):
+        super(hass_data)
+        self._attr_unique_id = f"{self._attr_unique_id}_organization"
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+        return self._connector.get_alarm_organization()
+
+class GroupAlarmAlarmStartSensor(GroupAlarmAbstractSensor):
+    _attr_name = "Start"
+    _attr_icon = "mdi:calendar-start"
+    
+    def __init__(self, hass_data):
+        super(hass_data)
+        self._attr_unique_id = f"{self._attr_unique_id}_start"
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+        return self._connector.get_alarm_start()
+
+class GroupAlarmAlarmEndSensor(GroupAlarmAbstractSensor):
+    _attr_name = "End"
+    _attr_icon = "mdi:calendar-end"
+    
+    def __init__(self, hass_data):
+        super(hass_data)
+        self._attr_unique_id = f"{self._attr_unique_id}_end"
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+        return self._connector.get_alarm_end()
+
+class GroupAlarmUserAlarmedSensor(GroupAlarmAbstractSensor):
+    _attr_name = "User is alarmed"
+    _attr_icon = "mdi:account-alert"
+    def __init__(self, hass_data):
+        super(hass_data)
+        self._attr_unique_id = f"{self._attr_unique_id}_user_alarmed"
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+        return self._connector.get_alarm_useralarmed()
+
+class GroupAlarmUserFeedbackSensor(GroupAlarmAbstractSensor):
+    _attr_name = "Feedback"
+    _attr_icon = "mdi:account-alert"
+    def __init__(self, hass_data):
+        super(hass_data)
+        self._attr_unique_id = f"{self._attr_unique_id}_user_feedback"
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+        return self._connector.get_user_feedback()
+
+class GroupAlarmMessageSensor(GroupAlarmAbstractSensor):
+    _attr_name = "Message"
+    _attr_icon = "mdi:card-text"
+    def __init__(self, hass_data):
+        super(hass_data)
+        self._attr_unique_id = f"{self._attr_unique_id}_message"
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+        return self._connector.get_alarm_message()
+
+class GroupAlarmEventSensor(GroupAlarmAbstractSensor):
+    _attr_name = "Event"
+    _attr_icon = "mdi:calendar-text"
+    def __init__(self, hass_data):
+        super(hass_data)
+        self._attr_unique_id = f"{self._attr_unique_id}_event"
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+        return self._connector.get_alarm_event()
