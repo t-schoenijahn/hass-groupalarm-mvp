@@ -82,7 +82,7 @@ class GroupAlarmAbstractSensor(SensorEntity):
         return self._connector.success and self._connector.latest_update is not None
 
 class GroupAlarmOrganizationSensor(GroupAlarmAbstractSensor):
-    _attr_name = "Organization"
+    _attr_name = "mvp-ga-Organization"
     _attr_icon = "mdi:account-group"
 
     def __init__(self, hass_data):
@@ -95,7 +95,7 @@ class GroupAlarmOrganizationSensor(GroupAlarmAbstractSensor):
         return self._connector.get_alarm_organization()
 
 class GroupAlarmAlarmStartSensor(GroupAlarmAbstractSensor):
-    _attr_name = "Start"
+    _attr_name = "mvp-ga-Start"
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_icon = "mdi:calendar-start"
     
@@ -109,7 +109,7 @@ class GroupAlarmAlarmStartSensor(GroupAlarmAbstractSensor):
         return self._connector.get_alarm_start()
 
 class GroupAlarmAlarmEndSensor(GroupAlarmAbstractSensor):
-    _attr_name = "End"
+    _attr_name = "mvp-ga-End"
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_icon = "mdi:calendar-end"
     
@@ -123,7 +123,7 @@ class GroupAlarmAlarmEndSensor(GroupAlarmAbstractSensor):
         return self._connector.get_alarm_end()
 
 class GroupAlarmUserAlarmedSensor(GroupAlarmAbstractSensor):
-    _attr_name = "User is alarmed"
+    _attr_name = "mvp-ga-User is alarmed"
     _attr_icon = "mdi:account-alert"
     def __init__(self, hass_data):
         super().__init__(hass_data)
@@ -135,7 +135,7 @@ class GroupAlarmUserAlarmedSensor(GroupAlarmAbstractSensor):
         return self._connector.get_alarm_useralarmed()
 
 class GroupAlarmUserFeedbackSensor(GroupAlarmAbstractSensor):
-    _attr_name = "Feedback"
+    _attr_name = "mvp-ga-Feedback"
     _attr_icon = "mdi:account-badge"
     def __init__(self, hass_data):
         super().__init__(hass_data)
@@ -147,7 +147,7 @@ class GroupAlarmUserFeedbackSensor(GroupAlarmAbstractSensor):
         return self._connector.get_alarm_feedback()
 
 class GroupAlarmMessageSensor(GroupAlarmAbstractSensor):
-    _attr_name = "Message"
+    _attr_name = "mvp-ga-Message"
     _attr_icon = "mdi:card-text"
     def __init__(self, hass_data):
         super().__init__(hass_data)
@@ -159,7 +159,7 @@ class GroupAlarmMessageSensor(GroupAlarmAbstractSensor):
         return self._connector.get_alarm_message()
 
 class GroupAlarmEventSensor(GroupAlarmAbstractSensor):
-    _attr_name = "Event"
+    _attr_name = "mvp-ga-Event"
     _attr_icon = "mdi:calendar-text"
     def __init__(self, hass_data):
         super().__init__(hass_data)
