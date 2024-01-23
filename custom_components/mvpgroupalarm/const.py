@@ -1,10 +1,10 @@
 """Constants for the GroupAlarm integration."""
 from datetime import timedelta
 
-DOMAIN = "groupalarm"
+DOMAIN = "mvpgroupalarm"
 
-DEFAULT_NAME = "GroupAlarm.com"
-DEFAULT_SHORT_NAME = "GroupAlarm"
+DEFAULT_NAME = "mvpGroupAlarm.com"
+DEFAULT_SHORT_NAME = "mvpGroupAlarm"
 
 ATTR_NAME = "state"
 ATTR_LATEST_UPDATE = "latest_update_utc"
