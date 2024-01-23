@@ -87,7 +87,7 @@ class GroupAlarmOrganizationSensor(GroupAlarmAbstractSensor):
 
     def __init__(self, hass_data):
         super().__init__(hass_data)
-        self._attr_unique_id = f"{self._attr_unique_id}_organization"
+        self._attr_unique_id = f"{self._attr_unique_id}_mvpga_organization"
 
     @property
     def state(self):
@@ -101,7 +101,7 @@ class GroupAlarmAlarmStartSensor(GroupAlarmAbstractSensor):
     
     def __init__(self, hass_data):
         super().__init__(hass_data)
-        self._attr_unique_id = f"{self._attr_unique_id}_start"
+        self._attr_unique_id = f"{self._attr_unique_id}_mvpga_start"
 
     @property
     def state(self):
@@ -115,7 +115,7 @@ class GroupAlarmAlarmEndSensor(GroupAlarmAbstractSensor):
     
     def __init__(self, hass_data):
         super().__init__(hass_data)
-        self._attr_unique_id = f"{self._attr_unique_id}_end"
+        self._attr_unique_id = f"{self._attr_unique_id}_mvpga_end"
 
     @property
     def state(self):
@@ -127,7 +127,7 @@ class GroupAlarmUserAlarmedSensor(GroupAlarmAbstractSensor):
     _attr_icon = "mdi:account-alert"
     def __init__(self, hass_data):
         super().__init__(hass_data)
-        self._attr_unique_id = f"{self._attr_unique_id}_user_alarmed"
+        self._attr_unique_id = f"{self._attr_unique_id}_mvpga_user_alarmed"
 
     @property
     def state(self):
@@ -139,7 +139,7 @@ class GroupAlarmUserFeedbackSensor(GroupAlarmAbstractSensor):
     _attr_icon = "mdi:account-badge"
     def __init__(self, hass_data):
         super().__init__(hass_data)
-        self._attr_unique_id = f"{self._attr_unique_id}_user_feedback"
+        self._attr_unique_id = f"{self._attr_unique_id}_mvpga_user_feedback"
 
     @property
     def state(self):
@@ -151,7 +151,7 @@ class GroupAlarmMessageSensor(GroupAlarmAbstractSensor):
     _attr_icon = "mdi:card-text"
     def __init__(self, hass_data):
         super().__init__(hass_data)
-        self._attr_unique_id = f"{self._attr_unique_id}_message"
+        self._attr_unique_id = f"{self._attr_unique_id}_mvpga_message"
 
     @property
     def state(self):
@@ -163,7 +163,7 @@ class GroupAlarmEventSensor(GroupAlarmAbstractSensor):
     _attr_icon = "mdi:calendar-text"
     def __init__(self, hass_data):
         super().__init__(hass_data)
-        self._attr_unique_id = f"{self._attr_unique_id}_event"
+        self._attr_unique_id = f"{self._attr_unique_id}_mvpga_event"
 
     @property
     def state(self):
